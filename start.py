@@ -1,4 +1,4 @@
-from lib.game_window import *
+from src.game_window import *
 
 
 if __name__ == "__main__":
