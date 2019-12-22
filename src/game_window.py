@@ -15,7 +15,7 @@ class Game:
         
     def player_window(self):
         player = Player(self.num)
-        self.number_user = player.number_user 
+        player.number_user = self.number_user
         player.start()
 
     def game_window(self):
@@ -32,12 +32,13 @@ class Game:
         # Create position list
         self.position_list = []
         for i in range(self.num):
-            x = 100
+            x = 700
             y = i * 120
             self.position_list.append([x, y])  
             
         self.speed_list = [1, 3, 5, 7, 9]
         self.end_list = []
+        self.end_list_with_user = []
 
         self.start()            
          
@@ -62,12 +63,15 @@ class Game:
                     # to: if game running               
                     x, y = event.pos                  
                     if (20 < x < 100) and (560 < y < 580):
-                        self.player_window()                      
+                        self.end_list = []   
+                        self.end_list_with_user = []
+                        self.player_window()                                                  
                     if (120 < x < 170) and (560 < y < 580):
                         for i in range(self.num):
                             self.position_list[i][0] = 100
                         self.run = True
                         self.end_list = []
+                        self.end_list_with_user = []
          
             # Set the self.screen background
             self.screen.fill(WHITE)
@@ -87,7 +91,7 @@ class Game:
                 random.shuffle(self.speed_list)
                             
                 # Add tortoise
-                text = pygame.font.Font("zk.ttf", 15)
+                text = pygame.font.Font("zk.ttf", 20)
                 tortoise = text.render(self.number_user["number %s: " % (i+1)], 1, BLUE)
                 self.screen.blit(tortoise, (20, self.position_list[i][1] + 20))
          
@@ -105,10 +109,12 @@ class Game:
                     self.position_list[i][0] = 700
                     if not i in self.end_list:
                         self.end_list.append(i)
+                        if self.number_user["number %s: " % (i+1)] != '':
+                            self.end_list_with_user.append(i)
                 
             if len(self.end_list) == 5:
                 i = 1
-                for e in self.end_list:
+                for e in self.end_list_with_user:
                     text = pygame.font.Font("zk.ttf", 30)
                     current_user = text.render(str(i) + ": " + self.number_user["number %s: " % (e+1)], 1, BLUE)
                     self.screen.blit(current_user, (300, 80*i))
