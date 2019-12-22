@@ -26,14 +26,26 @@ class Player:
             ii += 1
         self.window.destroy()
         
+    def clear_player_info(self):
+        ii = 1
+        for e in self.entry_list:
+            
+            self.number_user["number %s: " % ii] = ''
+            e.delete(0, tk.END)
+            ii += 1
+
+        
     def start(self):
         i = 0
         for i in range(self.num):
             tk.Label(self.window, width=12, text = "number %s: " % (i+1)).grid(row = i)
             e = tk.Entry(self.window, width=30)
+            e.insert(0, str(self.number_user["number %s: " % (i+1)]))
             e.grid(row = i, column = 1)
             self.entry_list.append(e)
             i += 1
-        tk.Button(self.window, width=12, text='保存', command=self.save_player_info).grid(row=self.num + 1, 
+        tk.Button(self.window, width=8, text='保存', command=self.save_player_info).grid(row=self.num + 1, 
                       column=1, sticky=tk.E, pady=4)
+        tk.Button(self.window, width=8, text='清空', command=self.clear_player_info).grid(row=self.num + 1, 
+                      column=1, pady=4)
         self.window.mainloop()
